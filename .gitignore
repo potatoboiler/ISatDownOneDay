@@ -1,0 +1,3 @@
+# Ignore temp object files and binaries
+build/*
+bin/*
