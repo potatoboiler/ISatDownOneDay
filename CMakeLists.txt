@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 
 # (name VERSION ver_number)
 project(SitDown 
 	VERSION 0.0
 	DESCRIPTION "Satisfiability solver for learning purposes"
 	LANGUAGES CXX
-	)
+)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -28,15 +28,21 @@ option(BUILD_TEST "Build benchmarks and unit tests" ON)
 
 add_subdirectory(src)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+target_include_directories(SitDown PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
 if (BUILD_TEST) 
-	find_package(benchmark)
+	find_package(benchmark QUIET)
 
+	# Also need to add a check that if BENCHMARK is not found in path,
+	# git submodule add
 	if (NOT benchmark_FOUND) 
 		add_subdirectory(${CMAKE_SOURCE_DIR}/lib/benchmark)
 	endif ()
 
-	target_link_libraries(SitDown PRIVATE benchmark::benchmark)
-endif ()
+	# target_link_libraries(SitDown PRIVATE benchmark::benchmark)
 
+	find_package(Catch2 QUIET)
+
+	add_subdirectory(test)
+endif ()
