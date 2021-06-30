@@ -13,3 +13,6 @@ if (NOT Catch2_FOUND)
 	target_link_libraries(catch_test PRIVATE Catch2)
 	target_include_directories(catch_test PRIVATE ${CATCH_INCLUDE_DIR})
 endif ()
+
+# Add library of functions for linking to testing executable
+target_link_libraries(catch_test PRIVATE test_lib)
