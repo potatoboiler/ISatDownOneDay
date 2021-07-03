@@ -46,7 +46,7 @@ void DIMACS::clear_cnf() noexcept {
 	return;
 }
 
-void DIMACS::write_to_file(std::string const & filename) {
+void DIMACS::write_to_file(std::string const & filename) const {
 	using namespace std;
 
 	// may or may not create file
@@ -63,4 +63,9 @@ void DIMACS::write_to_file(std::string const & filename) {
 	}
 
 	output.close();
+}
+void DIMACS::get_vec_cnf(std::vector<std::vector<int>>& cnf) noexcept {
+	// I believe this will unconditionally copy the input vector
+	// could be made better by moving, but maybe i want to preserve the original vector
+	this->_cnf = cnf;
 }
