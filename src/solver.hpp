@@ -15,9 +15,9 @@ concept all_literal = std::same_as<literal, std::common_type<Ts...>>;
 class Solver {
 	// remember to inherit virtually from this class
 	public:
-		Solver() : cnf(), n_vars(0), n_clauses(0) {};
-		Solver(cnf_t const & input) : cnf(input), n_clauses(input.size()) { this->n_vars = count_vars(); };
-		Solver(cnf_t&& input) : cnf(input), n_clauses(input.size()) { this->n_vars = count_vars(); };
+		Solver() : cnf(), n_vars(0), n_clauses(0), model(n_vars) {};
+		Solver(cnf_t const & input) : cnf(input), n_clauses(input.size()), n_vars(count_vars()), model(n_vars) {};
+		Solver(cnf_t&& input) : cnf(input), n_clauses(input.size()), n_vars(count_vars()), model(n_vars) {};
 
 		virtual void solve() = 0;
 
@@ -34,6 +34,7 @@ class Solver {
 		size_t count_vars();
 	protected:
 		cnf_t cnf;
+		std::vector<int> model;
 		size_t n_vars;
 		size_t n_clauses;
 };
