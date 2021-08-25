@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 # (name VERSION ver_number)
 project(SitDown 
@@ -30,16 +30,7 @@ add_subdirectory(src)
 
 target_include_directories(SitDown PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
-set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
 if (BUILD_TEST) 
-	find_package(benchmark QUIET)
-
-	# Also need to add a check that if BENCHMARK is not found in path,
-	# git submodule add
-	if (NOT benchmark_FOUND) 
-		add_subdirectory(${CMAKE_SOURCE_DIR}/lib/benchmark)
-	endif ()
-
 	# target_link_libraries(SitDown PRIVATE benchmark::benchmark)
 
 	find_package(Catch2 QUIET)
