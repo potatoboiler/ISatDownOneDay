@@ -1,8 +1,7 @@
-#ifndef SOLVER_BASE
-#define SOLVER_BASE
+#pragma once
 #include <vector>
 
-#include "DIMACS.hpp"
+#include "../DIMACS.hpp"
 
 using literal = int;
 using clause = std::vector<literal>;
@@ -19,7 +18,7 @@ class Solver {
 		Solver(cnf_t const & input) : cnf(input), n_clauses(input.size()), n_vars(count_vars()), model(n_vars) {};
 		Solver(cnf_t&& input) : cnf(input), n_clauses(input.size()), n_vars(count_vars()), model(n_vars) {};
 
-		virtual void solve() = 0;
+		virtual bool solve() = 0;
 
 		template<typename ... lits> requires all_literal<lits...>
 		void add_clause(lits ...);
@@ -31,11 +30,14 @@ class Solver {
 		void change_cnf(cnf_t&&);
 		void change_cnf(cnf_t const &);
 
+		//
+		bool unit_propagate();
+
 		size_t count_vars();
+
 	protected:
 		cnf_t cnf;
-		std::vector<int> model;
+		std::vector<literal> model;
 		size_t n_vars;
 		size_t n_clauses;
 };
-#endif
