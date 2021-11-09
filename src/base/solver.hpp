@@ -14,7 +14,7 @@ class Solver
 {
 	// remember to inherit virtually from this class
 public:
-	Solver() : cnf(), n_vars(0), n_clauses(0), model(n_vars){};
+	Solver() : cnf(), n_clauses(0), n_vars(0), model(0){};
 	Solver(cnf_t const &input) : cnf(input), n_clauses(input.size()), n_vars(count_vars()), model(n_vars){};
 	Solver(cnf_t &&input) : cnf(input), n_clauses(input.size()), n_vars(count_vars()), model(n_vars){};
 
@@ -36,9 +36,9 @@ public:
 
 protected:
 	cnf_t cnf;
-	std::vector<literal> model;
-	size_t n_vars;
 	size_t n_clauses;
+	size_t n_vars;
+	std::vector<literal> model;
 
 	virtual ~Solver() = 0;
 	virtual bool solve() = 0;
