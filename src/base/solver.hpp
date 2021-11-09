@@ -3,7 +3,7 @@
 
 #include "../DIMACS.hpp"
 
-using literal = int;
+using literal = int; // label for a variable, may split later into an individual literal type
 using clause = std::vector<literal>;
 using cnf_t = std::vector<clause>;
 
@@ -40,7 +40,8 @@ protected:
 	size_t n_vars;
 	size_t n_clauses;
 
-private:
-	virtual ~Solver() = default;
+	virtual ~Solver() = 0;
 	virtual bool solve() = 0;
+	virtual bool check_satisfied() = 0;
+	virtual void clear() = 0;
 };
