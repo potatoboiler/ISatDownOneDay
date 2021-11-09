@@ -1,23 +1,8 @@
-#include "base/solver.hpp"
+#include <base/solver.hpp>
 
 // implement probSAT local search
 // implement basic CDCL
 // note that clause lists may need to be pointers to clauses to avoid extra copies...
-class SitDown : virtual Solver
-{
-public:
-    bool solve();
-
-protected:
-    bool local_search_when_complete();
-    clause analyze();
-    void simplify_learned();
-    void restart();
-    void backtrack();
-
-    impl_graph g;
-    std::vector<clause> learned_clauses;
-};
 
 class Node
 {
@@ -52,4 +37,20 @@ public:
 protected:
     unsigned int decision_level = 0;
     std::vector<Node> trail; // pair <literal label, clause number>
+};
+
+class SitDown : virtual Solver
+{
+public:
+    bool solve();
+
+protected:
+    bool local_search_when_complete();
+    clause analyze();
+    void simplify_learned();
+    void restart();
+    void backtrack();
+
+    impl_graph g;
+    std::vector<clause> learned_clauses;
 };
