@@ -1,0 +1,6 @@
+[submodule "reference/minisat"]
+	path = reference/minisat
+	url = https://github.com/niklasso/minisat.git
+[submodule "reference/minisat-v1.14"]
+	path = reference/minisat-v1.14
+	url = https://github.com/msoos/minisat-v1.14.git
