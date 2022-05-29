@@ -9,15 +9,15 @@ void Solver::add_clause(lits... literals)
 {
 	this->cnf.emplace_back(literals...);
 }
-void Solver::add_clause(clause in)
+void Solver::add_clause(clause_t in)
 {
 	this->cnf.push_back(in);
 }
-void Solver::add_clause(clause &&in)
+void Solver::add_clause(clause_t &&in)
 {
 	this->cnf.push_back(in);
 }
-void Solver::add_clause(clause const &in)
+void Solver::add_clause(clause_t const &in)
 {
 	this->cnf.push_back(in);
 }
