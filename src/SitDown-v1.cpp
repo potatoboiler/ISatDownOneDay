@@ -105,3 +105,13 @@ void SitDown::assign_literal(literal l)
     this->model[idx] = std::signbit(l) ? -1 : 1;
     this->assigned_trail.push_back(l);
 }
+
+auto SitDown::backtrack() -> void {
+    const size_t last = this->dec_levels.back();
+    this->dec_levels.pop_back();
+    while (this->assigned_trail.size() > last) {
+        const literal l = this->assigned_trail.back();
+        this->model[l] = 0;
+        this->assigned_trail.pop_back();
+    }
+}

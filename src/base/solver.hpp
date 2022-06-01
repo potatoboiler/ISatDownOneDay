@@ -35,7 +35,7 @@ protected:
 	cnf_t cnf;
 	size_t n_clauses;
 	size_t n_vars;
-	std::vector<int8_t> model; // for now, unassigned == 0
+	std::vector<int8_t> model; // for now, unassigned == 0; can replace with 2 bitfield?
 
 	virtual ~Solver() = 0;
 	virtual bool solve() = 0;
