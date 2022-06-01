@@ -37,7 +37,8 @@ bool SitDown::unit_propagate()
                                                                                                { return this->model[std::abs(l)] * l == -1; }) == clause.size() - 1)
             {
                 const literal unit_literal = *std::find_if(clause.cbegin(), clause.cend(), test_unit);
-                this->model[std::abs(unit_literal)] = std::signbit(unit_literal) ? -1 : 1; // can be microoptimized?
+                assign_literal(unit_literal);
+                // this->model[std::abs(unit_literal)] = std::signbit(unit_literal) ? -1 : 1; // can be microoptimized?
                 // assigned.push_back(std::abs(unit_literal));
                 propagated = true;
             }
@@ -60,4 +61,47 @@ bool SitDown::unit_propagate()
     return check_conflict();
 }
 
-/* graph implementation */
+bool SitDown::assign_pure_literals()
+{
+    std::vector<int> signs(this->cnf.size());
+    std::vector<bool> modify_mask(this->cnf.size(), true);
+    for (auto const &clause : this->cnf)
+    {
+        for (literal l : clause)
+        {
+            const int sign = std::signbit(l) ? -1 : 1;
+            const literal idx = std::abs(l);
+            if (!signs[idx])
+            {
+                signs[idx] = sign;
+            }
+            else if (signs[idx] != sign)
+            {
+                modify_mask[idx] = false;
+            }
+        }
+    }
+    // guaranteed positive
+    for (size_t i = 0; i < this->model.size(); i++)
+    {
+        /*
+        if (this->model[i] != 0)
+        {
+            modify_mask[i] = false;
+        } 
+        */
+       modify_mask[i] = !(bool) this->model[i];
+    }
+    for (size_t i = 0; i < modify_mask.size(); i++)
+    {
+        this->model[i] = signs[i] ? -1 : 1;
+    }
+    return check_conflict();
+}
+
+void SitDown::assign_literal(literal l)
+{
+    const literal idx = std::abs(l);
+    this->model[idx] = std::signbit(l) ? -1 : 1;
+    this->assigned_trail.push_back(l);
+}

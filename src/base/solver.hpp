@@ -35,7 +35,7 @@ protected:
 	cnf_t cnf;
 	size_t n_clauses;
 	size_t n_vars;
-	std::vector<literal> model; // for now, unassigned == 0
+	std::vector<int8_t> model; // for now, unassigned == 0
 
 	virtual ~Solver() = 0;
 	virtual bool solve() = 0;
