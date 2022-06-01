@@ -1,15 +1,44 @@
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 
 #include "SitDown-v1.hpp"
 
 /* solver implementation */
-bool SitDown::solve()
+auto SitDown::solve() -> bool
 {
-    return false;
+    this->dec_levels.push_back(this->assigned_trail.size());
+    if (assign_pure_literals())
+    {
+        backtrack();
+        return false;
+    }
+    if (unit_propagate())
+    {
+        backtrack();
+        return false;
+    }
+
+    if (check_satisfied())
+    {
+        return true;
+    }
+    for (size_t i = 0; i < this->model.size(); i++)
+    {
+        if (!this->model[i])
+        {
+            assign_literal(i, 1);
+            if (solve())
+                return true;
+            assign_literal(i, -1);
+            if (solve())
+                return true;
+        }
+    }
+    return false; // if we manage to get down here without a satisfying assignment, then this is a bad branch
 }
 
-bool SitDown::check_conflict()
+auto SitDown::check_conflict() -> bool
 {
     for (clause_t const &clause : this->cnf)
     {
@@ -22,7 +51,7 @@ bool SitDown::check_conflict()
     return false;
 }
 
-bool SitDown::unit_propagate()
+auto SitDown::unit_propagate() -> bool
 {
     // std::vector<literal> assigned; // possibly unnecessary
     const static auto test_unit = [this](literal l)
@@ -61,7 +90,7 @@ bool SitDown::unit_propagate()
     return check_conflict();
 }
 
-bool SitDown::assign_pure_literals()
+auto SitDown::assign_pure_literals() -> bool
 {
     std::vector<int> signs(this->cnf.size());
     std::vector<bool> modify_mask(this->cnf.size(), true);
@@ -88,9 +117,9 @@ bool SitDown::assign_pure_literals()
         if (this->model[i] != 0)
         {
             modify_mask[i] = false;
-        } 
+        }
         */
-       modify_mask[i] = !(bool) this->model[i];
+        modify_mask[i] = !(bool)this->model[i];
     }
     for (size_t i = 0; i < modify_mask.size(); i++)
     {
@@ -100,23 +129,25 @@ bool SitDown::assign_pure_literals()
 }
 
 // to be called from within a loop with clauses with potential parity issue
-void SitDown::assign_literal(literal l)
+auto SitDown::assign_literal(literal l) -> void
 {
     const literal idx = std::abs(l);
     this->model[idx] = std::signbit(l) ? -1 : 1;
     this->assigned_trail.push_back(idx);
 }
-void SitDown::assign_literal(literal l, int val)
+auto SitDown::assign_literal(literal l, int val) -> void
 {
     assert(val == -1 || val == 1);
     this->model[l] = val;
     this->assigned_trail.push_back(l);
 }
 
-auto SitDown::backtrack() -> void {
+auto SitDown::backtrack() -> void
+{
     const size_t last = this->dec_levels.back();
     this->dec_levels.pop_back();
-    while (this->assigned_trail.size() > last) {
+    while (this->assigned_trail.size() > last)
+    {
         const literal l = this->assigned_trail.back();
         this->model[l] = 0;
         this->assigned_trail.pop_back();
