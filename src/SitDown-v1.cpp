@@ -99,10 +99,17 @@ bool SitDown::assign_pure_literals()
     return check_conflict();
 }
 
+// to be called from within a loop with clauses with potential parity issue
 void SitDown::assign_literal(literal l)
 {
     const literal idx = std::abs(l);
     this->model[idx] = std::signbit(l) ? -1 : 1;
+    this->assigned_trail.push_back(idx);
+}
+void SitDown::assign_literal(literal l, int val)
+{
+    assert(val == -1 || val == 1);
+    this->model[l] = val;
     this->assigned_trail.push_back(l);
 }
 
