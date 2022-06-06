@@ -22,8 +22,7 @@ struct cnf_t
     std::vector<clause_t<B,T>> clauses;
 };
 
-template <>
-struct literal_t<bool, size_t>;
-struct clause_t<bool, size_t>;
-struct cnf_t<bool, size_t>;
+using Literal = literal_t<bool, size_t>;
+using Clause = clause_t<bool, size_t>;
+using Cnf = cnf_t<bool, size_t>;
 
