@@ -1,14 +1,10 @@
 set(libsrc_list 
-	DIMACS.hpp
 	DIMACS.cpp
-	base/solver.hpp
-	base/solver.cpp
 )
 
 add_executable(SitDown 
 	main.cpp 
-	SitDown-v1.hpp
-	SitDown-v1.cpp
+	SitDown.cpp
 	${libsrc_list}
 )
 
