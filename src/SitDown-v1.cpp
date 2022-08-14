@@ -153,3 +153,38 @@ auto SitDown::backtrack() -> void
         this->assigned_trail.pop_back();
     }
 }
+
+auto SitDown::analyze() -> void
+{
+    // size(trail) <= size(seen)
+    // size(seen) == num(vars)
+    /*
+    inputs:
+     - confl 
+     - pathC
+     - p = ???? a literal that determines whether we start from clause's 0th or 1st literal
+
+    while (pathCounter > 0) {
+        get conflicted clause
+
+        for lit in clause {
+            if (lit not seen && lit dec level > 0) {
+                this lit has been seen;
+                if lit's assignment level >= current decision level {
+                    pathC++;
+                } else {
+                    put this lit in the learned clause
+                }
+            }
+        }
+
+        // select next clause
+        while (traverse trail backwards until we find another SEEN variable)
+        p is set to this seen variable
+        conflicted clause <-- the clause that caused the assignment of p
+        the variable behind p is no longer seen
+        pathC--
+    }
+    learned clause[0] = ~p // negation?
+    */
+}

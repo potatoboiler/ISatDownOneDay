@@ -16,6 +16,8 @@ private:
 
     auto assign_literal(literal l) -> void;
     auto assign_literal(literal l, int val) -> void;
+
+    auto analyze() -> void;
     auto backtrack() -> void;
     auto check_conflict() -> bool;
 
