@@ -1,6 +1,8 @@
 # Ignore temp object files and binaries
 build/
 bin/
-include/
+# include/
 reference/
 .vscode
+CMakeFiles/
+CMakeCache.txt
