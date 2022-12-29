@@ -1,6 +1,7 @@
 if (NOT Catch2_FOUND)
 	set(CATCH_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-	add_library(Catch2 STATIC ${CATCH_INCLUDE_DIR}/catch.hpp)
+	# add_library(Catch2 STATIC ${CATCH_INCLUDE_DIR}/catch.hpp)
+	add_library(Catch2 STATIC ${CATCH_INCLUDE_DIR}/catch_amalgamated.hpp)
 	set_target_properties(Catch2 PROPERTIES LINKER_LANGUAGE CXX)
 endif()
 

@@ -93,7 +93,7 @@ auto SitDown::unit_propagate() -> bool
 auto SitDown::assign_pure_literals() -> bool
 {
     std::vector<int> signs(this->cnf.size());
-    std::vector<bool> modify_mask(this->cnf.size(), true);
+    std::vector<bool> modify_mask(this->cnf.size(), true); // helps test if we actually need to modify a particualr variable between iterations?
     for (auto const &clause : this->cnf)
     {
         for (literal l : clause)
@@ -154,13 +154,13 @@ auto SitDown::backtrack() -> void
     }
 }
 
-auto SitDown::analyze() -> void
+auto SitDown::analyze() -> clause_t
 {
     // size(trail) <= size(seen)
     // size(seen) == num(vars)
     /*
     inputs:
-     - confl 
+     - confl
      - pathC
      - p = ???? a literal that determines whether we start from clause's 0th or 1st literal
 
@@ -184,7 +184,29 @@ auto SitDown::analyze() -> void
         conflicted clause <-- the clause that caused the assignment of p
         the variable behind p is no longer seen
         pathC--
+
+        // finding UIP?
     }
     learned clause[0] = ~p // negation?
+    https://nullprogram.com/blog/2022/08/08/
+
+    the tertiary to check if p == Lit_Undef is to see whether the clause we are working on is the first (unit clause) whose propagation would cause conflict
+    asserting literal == asserted literal from unit clause.
+
     */
+    int pathCounter = 0;
+    clause_t out;
+    std::vector<literal> seen();
+
+    do
+    {
+
+    } while (pathCounter > 0);
+
+    // simplification
+    /*
+
+    */
+
+    return out;
 }
