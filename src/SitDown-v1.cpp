@@ -4,6 +4,47 @@
 
 #include "SitDown-v1.hpp"
 
+template <typename... lits>
+requires all_literal<lits...>
+void SitDown::add_clause(lits... literals)
+{
+	this->cnf.emplace_back(literals...);
+}
+void SitDown::add_clause(clause_t in)
+{
+	this->cnf.push_back(in);
+}
+void SitDown::add_clause(clause_t &&in)
+{
+	this->cnf.push_back(in);
+}
+void SitDown::add_clause(clause_t const &in)
+{
+	this->cnf.push_back(in);
+}
+
+size_t SitDown::count_vars()
+{
+	// if literal type changes, this also needs to change
+	size_t out = 0;
+	for (auto &cl : this->cnf)
+	{
+		for (auto lit : cl)
+		{
+			out = std::max((size_t)std::abs(lit), out);
+		}
+	}
+	return out;
+}
+
+auto SitDown::check_satisfied() -> bool {
+    assert(false);
+    for (auto &cl : this->cnf) {
+
+    }
+    return true;
+}
+
 /* solver implementation */
 auto SitDown::solve() -> bool
 {
@@ -196,7 +237,7 @@ auto SitDown::analyze() -> clause_t
     */
     int pathCounter = 0;
     clause_t out;
-    std::vector<literal> seen();
+    std::vector<literal> seen{};
 
     do
     {

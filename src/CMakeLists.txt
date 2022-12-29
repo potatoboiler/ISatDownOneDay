@@ -1,8 +1,6 @@
 set(libsrc_list 
 	DIMACS.hpp
 	DIMACS.cpp
-	base/solver.hpp
-	base/solver.cpp
 )
 
 add_executable(SitDown 
