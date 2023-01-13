@@ -1,26 +1,55 @@
 #pragma once
 
+#include <cassert>
 #include <cstdint>
 #include <vector>
+#include <optional>
 
 using std::size_t;
 using literal = int32_t; // label for a variable, may split later into an individual literal type
-using clause_t = std::vector<literal>;
-using cnf_t = std::vector<clause_t>;
+using clause_t = int32_t *;
 
 template <typename... Ts>
 concept all_literal = std::same_as<literal, std::common_type<Ts...>>;
 
-class ClauseCollection
+// Structured after VariSAT
+class VariableAssignments
+{
+    std::vector<std::optional<bool>> variables;
+    std::vector<bool> last_values;
+
+public:
+    std::size_t size() const
+    {
+        return variables.size();
+    }
+
+    void assign(int n, bool value)
+    {
+        assert(0 <= n && n < variables.size());
+        variables[n] = value;
+    }
+
+    void resize(int n)
+    {
+        variables.resize(n);
+        last_values.resize(n);
+        assert(variables.size() == last_values.size());
+    }
+};
+
+class ClauseDatabase
+{
+};
+
+class ClauseAlloc
 {
 public:
-    inline auto get_clause(size_t i) -> clause_t & { return this->clauses[i]; }
-    ClauseCollection(std::vector<clause_t> clauses);
+    inline auto get_clause(size_t i) -> clause_t &;
+    ClauseAlloc(std::vector<clause_t> clauses);
 
 private:
-    std::vector<clause_t> clauses; // split clauses to keep them under a certain size?
-    std::vector<size_t> reasons;
-    std::vector<size_t> index_map; // in case we try to reorder, but probably not necessary for now
+    std::vector<int32_t> buffer; // split clauses to keep them under a certain size?
 };
 
 class SitDown
@@ -35,9 +64,6 @@ private:
     auto prune_clauses() -> void;
     auto restore_clauses() -> void;
 
-    auto assign_literal(literal l) -> void;
-    auto assign_literal(literal l, int val) -> void;
-
     auto analyze() -> clause_t;
     auto backtrack() -> void;
     auto check_conflict() -> bool;
@@ -46,26 +72,8 @@ private:
     SitDown() = delete;
 
     // std::vector<literal> reasons;
-    ClauseCollection clauses;
-    std::vector<literal> assigned_trail;
-    std::vector<size_t> dec_levels;
-
-    template <typename... lits>
-        requires all_literal<lits...>
-    void add_clause(lits...);
-    void add_clause(clause_t);
-    void add_clause(clause_t &&);
-    void add_clause(clause_t const &);
-
-    void change_cnf(cnf_t);
-    void change_cnf(cnf_t &&);
-    void change_cnf(cnf_t const &);
-
-    size_t count_vars();
+    ClauseAlloc clauses;
+    ClauseDatabase db;
 
 protected:
-    cnf_t cnf;
-    size_t n_clauses;
-    size_t n_vars;
-    std::vector<int8_t> model; // for now, unassigned == 0; can replace with 2 bitfield?
 };
