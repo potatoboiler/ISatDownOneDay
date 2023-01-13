@@ -3,6 +3,6 @@ build/
 bin/
 # include/
 reference/
-.vscode
+# .vscode
 CMakeFiles/
 CMakeCache.txt
