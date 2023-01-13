@@ -26,7 +26,7 @@ public:
 
     void assign(int n, bool value)
     {
-        assert(0 <= n && n < variables.size());
+        assert(0 <= n && (unsigned)n < variables.size());
         variables[n] = value;
     }
 
@@ -38,6 +38,10 @@ public:
     }
 };
 
+struct ClauseHeader
+{
+};
+
 class ClauseDatabase
 {
 };
@@ -46,7 +50,7 @@ class ClauseAlloc
 {
 public:
     inline auto get_clause(size_t i) -> clause_t &;
-    ClauseAlloc(std::vector<clause_t> clauses);
+    // ClauseAlloc(std::vector<clause_t> clauses);
 
 private:
     std::vector<int32_t> buffer; // split clauses to keep them under a certain size?
@@ -68,8 +72,6 @@ private:
     auto backtrack() -> void;
     auto check_conflict() -> bool;
     auto check_satisfied() -> bool;
-
-    SitDown() = delete;
 
     // std::vector<literal> reasons;
     ClauseAlloc clauses;
