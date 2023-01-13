@@ -1,13 +1,17 @@
-set(libsrc_list 
+set(libutil_list 
 	DIMACS.hpp
 	DIMACS.cpp
 )
 
-add_executable(SitDown 
-	main.cpp 
+set(libsrc_list
 	SitDown-v1.hpp
 	SitDown-v1.cpp
+)
+
+add_executable(SitDown 
+	main.cpp 
 	${libsrc_list}
+	${libutil_list}
 )
 
 target_include_directories(SitDown PRIVATE ${CMAKE_SOURCE_DIR}/include)
