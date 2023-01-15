@@ -6,6 +6,8 @@ set(libutil_list
 set(libsrc_list
 	SitDown-v1.hpp
 	SitDown-v1.cpp
+	types.hpp
+	clause.hpp
 )
 
 add_executable(SitDown 

@@ -5,9 +5,8 @@
 #include <vector>
 #include <optional>
 
-using std::size_t;
-using literal = int32_t; // label for a variable, may split later into an individual literal type
-using clause_t = int32_t *;
+#include "types.hpp"
+#include "clause.hpp"
 
 template <typename... Ts>
 concept all_literal = std::same_as<literal, std::common_type<Ts...>>;
@@ -19,10 +18,7 @@ class VariableAssignments
     std::vector<bool> last_values;
 
 public:
-    std::size_t size() const
-    {
-        return variables.size();
-    }
+    std::size_t size() const { return variables.size(); }
 
     void assign(int n, bool value)
     {
@@ -38,23 +34,6 @@ public:
     }
 };
 
-struct ClauseHeader
-{
-};
-
-class ClauseDatabase
-{
-};
-
-class ClauseAlloc
-{
-public:
-    inline auto get_clause(size_t i) -> clause_t &;
-    // ClauseAlloc(std::vector<clause_t> clauses);
-
-private:
-    std::vector<int32_t> buffer; // split clauses to keep them under a certain size?
-};
 
 class SitDown
 {
