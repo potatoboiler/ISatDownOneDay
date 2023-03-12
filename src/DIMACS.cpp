@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <stdlib.h>
 
 #include "DIMACS.hpp"
 
@@ -8,14 +9,12 @@ DIMACS::DIMACS(std::string const &filename)
 {
 	using namespace std;
 
-	fstream input;
-	input.open(filename, ios_base::in);
+	ifstream input(filename);
 
-	if (input.is_open())
+	if (input)
 	{
 		string line;
 
-		int index = 0;
 		while (getline(input, line))
 		{
 			if (line.starts_with('c'))
@@ -36,18 +35,23 @@ DIMACS::DIMACS(std::string const &filename)
 			{ // feed clauses into this->_cnf
 				int var;
 				istringstream iss(line);
+				dimacs_clause new_clause{};
 
 				while (iss >> var)
 				{
 					if (var)
 					{
-						this->_cnf[index].push_back(var);
+						new_clause.push_back(var);
 					}
 				}
-				index++;
+				this->_cnf.push_back(std::move(new_clause));
 			}
 		}
 		input.close();
+	}
+	else
+	{
+		std::cerr << "Could not find or open file!" << std::endl;
 	}
 }
 
@@ -78,9 +82,16 @@ void DIMACS::write_to_file(std::string const &filename) const
 
 	output.close();
 }
-void DIMACS::get_vec_cnf(std::vector<std::vector<int>> &cnf) noexcept
+void DIMACS::from_vec_cnf(std::vector<std::vector<int>> &cnf) noexcept
 {
 	// I believe this will unconditionally copy the input vector
 	// could be made better by moving, but maybe i want to preserve the original vector
 	this->_cnf = cnf;
+}
+
+dimacs_cnf DIMACS::get_cnf() const noexcept
+{
+	// I believe this will unconditionally copy the input vector
+	// could be made better by moving, but maybe i want to preserve the original vector
+	return this->_cnf;
 }

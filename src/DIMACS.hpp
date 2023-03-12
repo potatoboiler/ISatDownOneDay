@@ -16,7 +16,8 @@ public:
 	// file i/o
 	void clear_cnf() noexcept;
 	void write_to_file(std::string const &filename) const; // writes cnf to file
-	void get_vec_cnf(std::vector<std::vector<int>> &cnf) noexcept;
+	void from_vec_cnf(std::vector<std::vector<int>> &cnf) noexcept;
+	dimacs_cnf get_cnf() const noexcept;
 
 private:
 	unsigned int n_vars = 0;
