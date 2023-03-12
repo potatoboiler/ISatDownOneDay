@@ -2,17 +2,29 @@
 
 #include "types.hpp"
 
-constexpr std::size_t HEADER_LEN = 3;
+// VariSAT header items
+enum HEADER_NAMES
+{
+    activity,
+    mark,
+    deleted,
+    length,
+    HEADER_LEN,
+};
 
-struct Clause {
+struct Clause
+{
     // ClauseHeader header;
     literal header[HEADER_LEN];
     // Because C++ doesn't bounds check, we abuse casting to let this act as a "flexible array member"
-    literal data[1]; 
+    literal data[1];
+
+    Clause() = delete;
 };
 
 class ClauseDatabase
 {
+    std::vector<clause_ref> clause_indices;
 };
 
 class ClauseAlloc
