@@ -45,3 +45,5 @@ if (BUILD_TEST)
 
 	add_subdirectory(test)
 endif ()
+
+# enable_testing()

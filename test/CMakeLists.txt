@@ -8,6 +8,7 @@ endif()
 add_executable(catch_test 
 	catch_test.cpp
 	dimacs_tests.cpp
+	${CMAKE_SOURCE_DIR}/src/DIMACS.cpp
 )
 
 if (NOT Catch2_FOUND)
@@ -17,3 +18,6 @@ endif ()
 
 # Add library of functions for linking to testing executable
 target_link_libraries(catch_test PRIVATE test_lib)
+
+# add_test(NAME dimacs_test COMMAND catch_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test/test_dimacs)
+file(COPY test_dimacs DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
