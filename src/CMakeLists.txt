@@ -8,6 +8,7 @@ set(libsrc_list
 	SitDown-v1.cpp
 	types.hpp
 	clause.hpp
+	clause.cpp
 )
 
 add_executable(SitDown 

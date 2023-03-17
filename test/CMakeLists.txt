@@ -9,6 +9,8 @@ add_executable(catch_test
 	catch_test.cpp
 	dimacs_tests.cpp
 	${CMAKE_SOURCE_DIR}/src/DIMACS.cpp
+	${CMAKE_SOURCE_DIR}/src/SitDown-v1.cpp
+	${CMAKE_SOURCE_DIR}/src/clause.cpp
 )
 
 if (NOT Catch2_FOUND)
