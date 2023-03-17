@@ -34,11 +34,12 @@ public:
     }
 };
 
-
 class SitDown
 {
 public:
     bool solve();
+    SitDown();
+    SitDown(dimacs_cnf const &);
 
 private:
     auto unit_propagate() -> bool;
