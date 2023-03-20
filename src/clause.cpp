@@ -19,5 +19,17 @@ std::vector<size_t> ClauseAlloc::add_clauses(dimacs_cnf const &cnf)
     {
         offsets.push_back(this->add_clause(cnf_clause));
     }
-    return std::move(offsets);
+    return offsets;
+}
+
+size_t ClauseAlloc::add_clause(std::vector<literal> const &clause)
+{
+    // TODO: SET HEADER
+    size_t offset = this->buffer.size();
+    this->buffer.reserve(this->buffer.size() + HEADER_LEN + clause.size());
+    for (size_t i = offset + HEADER_LEN; i < this->buffer.size(); i++)
+    {
+        this->buffer.emplace_back(clause[i]);
+    }
+    return offset;
 }

@@ -39,8 +39,7 @@ public:
     std::vector<size_t> add_clauses(dimacs_cnf const &cnf); // returns vector containing all offsets
 
 private:
-    std::vector<literal> buffer; // split clauses to keep them under a certain size?
-    // std::unique_ptr<literal[]> buffer;
+    std::vector<literal_struct> buffer; // split clauses to keep them under a certain size?
 };
 
 class ClauseManager
