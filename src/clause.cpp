@@ -1,9 +1,5 @@
 #include "clause.hpp"
 
-ClauseManager::ClauseManager(dimacs_cnf const &)
-{
-}
-
 std::vector<size_t> ClauseAlloc::add_clauses(dimacs_cnf const &cnf)
 {
     size_t total_size = cnf.size() * HEADER_LEN;

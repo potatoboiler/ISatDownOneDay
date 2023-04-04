@@ -47,6 +47,5 @@ class ClauseManager
     ClauseAlloc alloc;
     ClauseDatabase db;
 
-    ClauseManager() = delete;
-    ClauseManager(dimacs_cnf const &);
+public:
 };

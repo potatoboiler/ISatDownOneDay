@@ -54,8 +54,7 @@ private:
     auto check_satisfied() -> bool;
 
     // std::vector<literal> reasons;
-    ClauseAlloc clauses;
-    ClauseDatabase db;
 
 protected:
+    ClauseManager clauses;
 };
