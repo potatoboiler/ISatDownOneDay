@@ -1,6 +1,6 @@
 #include "clause.hpp"
 
-std::vector<size_t> ClauseAlloc::add_clauses(dimacs_cnf const &cnf)
+std::vector<size_t> bump_allocator::ClauseAlloc::add_clauses(dimacs_cnf const &cnf)
 {
     size_t total_size = cnf.size() * HEADER_LEN;
     for (auto const &cnf_clause : cnf)
@@ -18,7 +18,7 @@ std::vector<size_t> ClauseAlloc::add_clauses(dimacs_cnf const &cnf)
     return offsets;
 }
 
-size_t ClauseAlloc::add_clause(std::vector<literal> const &clause)
+size_t bump_allocator::ClauseAlloc::add_clause(std::vector<literal> const &clause)
 {
     // TODO: SET HEADER
     size_t offset = this->buffer.size();

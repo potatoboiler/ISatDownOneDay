@@ -56,5 +56,5 @@ private:
     // std::vector<literal> reasons;
 
 protected:
-    ClauseManager clauses;
+    // ClauseManager clauses;
 };
